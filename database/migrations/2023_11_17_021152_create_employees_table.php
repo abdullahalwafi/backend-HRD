@@ -22,7 +22,6 @@ return new class extends Migration
             $table->unsignedBigInteger('position_id');
             $table->enum("status", ['active', 'inactive']);
             $table->date('hired_on');
-
             $table->foreign('departement_id')->references('id')->on('departement');
             $table->foreign('position_id')->references('id')->on('position');
             $table->timestamps();
