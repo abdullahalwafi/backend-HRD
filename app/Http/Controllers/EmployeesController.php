@@ -13,7 +13,6 @@ class EmployeesController extends Controller
     public function index()
     {
         $employees = Employees::all();
-
         if (!$employees) {
             $data = [
                 "message" => "Data employees not found",
