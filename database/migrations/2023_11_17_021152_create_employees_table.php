@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email');
             $table->unsignedBigInteger('departement_id');
             $table->unsignedBigInteger('position_id');
-            $table->enum("status", ['active', 'inactive']);
+            $table->enum("status", ['active', 'inactive', 'terminated']);
             $table->date('hired_on');
             $table->foreign('departement_id')->references('id')->on('departement');
             $table->foreign('position_id')->references('id')->on('position');

@@ -108,10 +108,14 @@ class PositionController extends Controller
             return response()->json($data, 404);
         }
 
-        $input = $request->validate([
-            'name' => "required|string|unique:position,name,{$position->id}",
-            'description' => "required|string"
+        $request->validate([
+            'name' => "string|unique:position,name,{$position->id}",
+            'description' => "string"
         ]);
+        $input = [
+            'name' => $request->name ?? $position->name,
+            'description' => $request->description ?? $position->description
+        ];
 
         $position->update($input);
 

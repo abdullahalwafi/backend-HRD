@@ -107,10 +107,15 @@ class DepartementController extends Controller
             return response()->json($data, 404);
         }
 
-        $input = $request->validate([
-            'name' => "required|string|unique:departement,name,{$departement->id}" ,
-            'description' => "required|string"
+        $request->validate([
+            'name' => "string|unique:departement,name,{$departement->id}" ,
+            'description' => "string"
         ]);
+
+        $input = [
+            "name" => $request->name ?? $departement->name,
+            "description" => $request->description ?? $departement->description
+        ];
 
         $departement->update($input);
 
