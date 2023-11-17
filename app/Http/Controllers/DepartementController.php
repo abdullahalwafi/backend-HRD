@@ -12,7 +12,22 @@ class DepartementController extends Controller
      */
     public function index()
     {
-        //
+        $departement = Departement::all();
+
+        if (!$departement) {
+            $data = [
+                "message" => "Data departement not found",
+                "data" => []
+            ];
+            return response()->json($data, 404);
+        } else {
+            $data = [
+                "message" => "Get all data departement",
+                "data" => $departement
+            ];
+
+            return response()->json($data, 200);
+        }
     }
 
     /**
@@ -20,7 +35,9 @@ class DepartementController extends Controller
      */
     public function create()
     {
-        //
+        return response()->json([
+            "message" => "Method not allowed"
+        ], 405);
     }
 
     /**
@@ -28,38 +45,104 @@ class DepartementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->validate([
+            'name' => "required|string|unique:departement,name",
+            'description' => "required|string"
+        ]);
+
+        $departement = Departement::create($input);
+
+        $data = [
+            "message" => "Departement created",
+            "data" => $departement
+        ];
+
+        return response()->json($data, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Departement $departement)
+    public function show(String $id)
     {
-        //
+        $departement = Departement::find($id);
+
+        if (!$departement) {
+            $data = [
+                "message" => "Data departement not found",
+                "data" => []
+            ];
+            return response()->json($data, 404);
+        } else {
+            $data = [
+                "message" => "Get data departement by id",
+                "data" => $departement
+            ];
+
+            return response()->json($data, 200);
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Departement $departement)
+    public function edit(String $id)
     {
-        //
+        return response()->json([
+            "message" => "Method not allowed"
+        ], 405);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Departement $departement)
+    public function update(Request $request, String $id)
     {
-        //
+        $departement = Departement::find($id);
+        if (!$departement) {
+            $data = [
+                "message" => "Data departement not found",
+                "data" => []
+            ];
+            return response()->json($data, 404);
+        }
+
+        $input = $request->validate([
+            'name' => "required|string|unique:departement,name,{$departement->id}" ,
+            'description' => "required|string"
+        ]);
+
+        $departement->update($input);
+
+        $data = [
+            "message" => "Departement updated",
+            "data" => $departement
+        ];
+
+        return response()->json($data, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Departement $departement)
+    public function destroy(String $id)
     {
-        //
+        $departement = Departement::find($id);
+        if (!$departement) {
+            $data = [
+                "message" => "Data departement not found",
+                "data" => []
+            ];
+            return response()->json($data, 404);
+        }
+
+        $departement->delete();
+
+        $data = [
+            "message" => "Departement deleted",
+            "data" => $departement
+        ];
+
+        return response()->json($data, 200);
     }
 }
