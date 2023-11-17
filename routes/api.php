@@ -22,4 +22,5 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group( function () {
     Route::resource('/departement', DepartementController::class);
+    Route::resource('/position', PositionController::class);
 });
